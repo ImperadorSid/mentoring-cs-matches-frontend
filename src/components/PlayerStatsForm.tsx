@@ -1,20 +1,20 @@
 import { ChangeEvent, ChangeEventHandler, useState } from 'react'
 import Input from 'components/Input'
 import Select from 'components/Select'
-import { usePlayers } from 'hooks/players'
 import type { PlayerStats } from 'types/PlayerStats'
+import type { Player } from 'types/Player'
 
 type PlayerStatsFormProps = {
   formIndex: number
+  availablePlayers: Player[]
   onFormChange: (formIndex: number, playerData: Partial<PlayerStats>) => void
 }
 
 export default function PlayerStatsForm({
   formIndex,
+  availablePlayers,
   onFormChange,
 }: PlayerStatsFormProps) {
-  const { players } = usePlayers()
-
   const handleFormChange = ({
     target: { name, value },
   }: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -25,7 +25,7 @@ export default function PlayerStatsForm({
     <div className="flex flex-col gap-3 mb-3">
       <Select
         name="player_id"
-        options={players.map(({ id, name }) => ({
+        options={availablePlayers.map(({ id, name }) => ({
           name,
           value: id.toString(),
         }))}
