@@ -7,13 +7,13 @@ type HeaderProps = {
 
 export default function Header({ title, showBackButton = true }: HeaderProps) {
   return (
-    <div>
+    <header>
       {showBackButton && (
         <Link href="/" className="hover:underline">
           Back
         </Link>
       )}
       <h1 className="text-3xl font-semibold">{title}</h1>
-    </div>
+    </header>
   )
 }
