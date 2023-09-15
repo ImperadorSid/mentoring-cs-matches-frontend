@@ -2,10 +2,12 @@ import Form from 'components/Form'
 import Input from 'components/Input'
 import Select from 'components/Select'
 import Button from 'components/Button'
-import { useTeams } from 'hooks/teams'
+import { useAllTeams } from 'api/teams'
 
 export default function PlayerCreate() {
-  const { teams } = useTeams()
+  const { isSuccess, data: teams } = useAllTeams()
+
+  if (!isSuccess) return 'Loading...'
 
   return (
     <Form title="Create player">
@@ -15,8 +17,11 @@ export default function PlayerCreate() {
       <Input name="birth_date" type="date" placeholder="Birth date" />
 
       <Select
-        name="team_id"
-        options={teams.map(({ id, name }) => ({ name, value: id.toString() }))}
+        name="team_i"
+        options={teams.map(({ id, name }) => ({
+          name,
+          value: id.toString(),
+        }))}
       />
 
       <Button type="submit">Create</Button>

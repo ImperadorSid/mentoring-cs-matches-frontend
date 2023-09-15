@@ -5,8 +5,9 @@ import PlayerStatsForm from 'components/PlayerStatsForm'
 import Section from 'components/Section'
 import Select from 'components/Select'
 import Button from 'components/Button'
-import { useTeams } from 'hooks/teams'
 import type { PlayerStats } from 'types/PlayerStats'
+import { useAllTeams } from 'api/teams'
+import { useAllPlayers } from 'api/players'
 
 type PlayerStatsArray = {
   [key: number]: PlayerStats
@@ -19,7 +20,9 @@ type TeamFormFields =
   | 'team_away_score'
 
 export default function MatchCreate() {
-  const { teams } = useTeams()
+  const { isSuccess: isSuccessPlayers, data: players } = useAllPlayers()
+  const { isSuccess: isSuccessTeams, data: teams } = useAllTeams()
+
   const [homeTeamId, setHomeTeamId] = useState<number>()
   const [homeTeamScore, setHomeTeamScore] = useState<number>()
   const [awayTeamId, setAwayTeamId] = useState<number>()
@@ -96,6 +99,8 @@ export default function MatchCreate() {
     )
   }
 
+  if (!isSuccessTeams || !isSuccessPlayers) return 'Loading...'
+
   return (
     <Form title="Create match" onSubmit={handleSubmit}>
       <Section title="Team scores">
@@ -142,6 +147,7 @@ export default function MatchCreate() {
         {Object.keys(playersData).map((formIndex) => (
           <PlayerStatsForm
             key={formIndex}
+            availablePlayers={players}
             formIndex={parseInt(formIndex)}
             onFormChange={handlePlayerFormChange}
           />
