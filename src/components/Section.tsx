@@ -10,7 +10,7 @@ export default function Section({
 }: PropsWithChildren<SectionProps>) {
   return (
     <section className="flex flex-col gap-3">
-      <p className="my-3 ps-3 border-s-2 font-semibold">{title}</p>
+      <h2 className="my-3 ps-3 border-s-2 font-semibold">{title}</h2>
       {children}
     </section>
   )
