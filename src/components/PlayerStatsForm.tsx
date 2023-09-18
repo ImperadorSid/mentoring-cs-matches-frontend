@@ -1,4 +1,4 @@
-import { ChangeEvent, ChangeEventHandler, useState } from 'react'
+import { ChangeEvent } from 'react'
 import Input from 'components/Input'
 import Select from 'components/Select'
 import type { PlayerStats } from 'types/PlayerStats'
