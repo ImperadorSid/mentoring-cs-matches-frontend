@@ -95,6 +95,11 @@ export default function MatchCreate() {
     createMatch.mutate(creationData)
   }
 
+  const getButtonText = useMemo(
+    () => getSubmitButtonText(createMatch),
+    [createMatch],
+  )
+
   if (!isSuccessTeams || !isSuccessPlayers) return 'Loading...'
 
   return (
@@ -158,7 +163,7 @@ export default function MatchCreate() {
         </div>
       </Section>
 
-      <Button type="submit">{getSubmitButtonText(createMatch)}</Button>
+      <Button type="submit">{getButtonText}</Button>
     </Form>
   )
 }

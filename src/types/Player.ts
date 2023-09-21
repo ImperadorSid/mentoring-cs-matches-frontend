@@ -1,5 +1,5 @@
 import { Team } from './Team'
-import { PlayerStats } from './Match'
+import { PlayerStatsWithMatchInfo } from './Match'
 
 export type Player = {
   id: number
@@ -11,5 +11,5 @@ export type Player = {
 
 export type PlayerCareer = Player & {
   team: Team
-  player_performances: PlayerStats[]
+  player_performances: PlayerStatsWithMatchInfo[]
 }

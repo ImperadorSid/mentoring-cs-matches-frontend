@@ -6,6 +6,11 @@ export type PlayerStats = {
   headshots: number
 }
 
+export type PlayerStatsWithMatchInfo = Omit<PlayerStats, 'player_id'> & {
+  match: string
+  'win?': boolean
+}
+
 export type TeamResult = {
   opponent: string
   opponent_id: number
