@@ -16,16 +16,20 @@ export default function Home() {
 
       <Section title="Dashboard">
         <div className="flex gap-3">
-          <Stat description="teams" value={teams.length} />
-          <Stat description="players" value={players.length} />
+          <Stat description="teams" value={teams.length} destination="/teams" />
+          <Stat
+            description="players"
+            value={players.length}
+            destination="/players"
+          />
         </div>
       </Section>
 
       <Section title="Create new">
         <nav className="flex gap-3">
-          <NavButton title="Team" destination="/team/create" />
-          <NavButton title="Player" destination="/player/create" />
-          <NavButton title="Match" destination="/match/create" />
+          <NavButton title="Team" destination="/teams/create" />
+          <NavButton title="Player" destination="/players/create" />
+          <NavButton title="Match" destination="/matches/create" />
         </nav>
       </Section>
     </>
