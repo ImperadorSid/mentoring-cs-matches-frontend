@@ -6,6 +6,14 @@ export type PlayerStats = {
   headshots: number
 }
 
+export type TeamResult = {
+  opponent: string
+  opponent_id: number
+  opponent_score: number
+  score: number
+  'win?': boolean
+}
+
 export type Match = {
   team_home_id: number
   team_home_score: number

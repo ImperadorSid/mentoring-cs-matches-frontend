@@ -13,13 +13,13 @@ export default function TeamCreate() {
     event.preventDefault()
 
     const formData = new FormData(event.currentTarget)
-    const values = Object.fromEntries(formData) as Team
+    const values = Object.fromEntries(formData) as Omit<Team, 'id'>
 
     createTeam.mutate(values)
   }
 
   const getButtonText = useMemo(
-    () => getSubmitButtonText<Team>(createTeam),
+    () => getSubmitButtonText(createTeam),
     [createTeam],
   )
 
