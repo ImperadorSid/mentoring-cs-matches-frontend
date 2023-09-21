@@ -8,7 +8,7 @@ export default function Layout({ children }: PropsWithChildren) {
         <title>CS Matches</title>
       </Head>
 
-      <main className="container max-w-md mx-auto flex flex-col gap-7 p-4">
+      <main className="container max-w-lg mx-auto flex flex-col gap-7 p-4">
         {children}
       </main>
     </>
