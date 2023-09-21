@@ -13,12 +13,10 @@ export default function Stat({
 }: StatProps) {
   return (
     <Link href={destination}>
-      <div className="border-2 border-black hover:border-white px-5 py-2 rounded-md">
-        <p>
-          <span className="text-4xl font-semibold">{value}</span>{' '}
-          <span className="align-super font-semibold">{description}</span>
-        </p>
-      </div>
+      <p className="border-2 border-black hover:border-white rounded-md  p-2">
+        <span className="text-2xl font-semibold">{value}</span>{' '}
+        <span className="align-text-bottom font-semibold">{description}</span>
+      </p>
     </Link>
   )
 }

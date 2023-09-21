@@ -1,29 +1,11 @@
 import NavButton from 'components/NavButton'
 import Section from 'components/Section'
-import { useAllTeams } from 'api/teams'
-import { useAllPlayers } from 'api/players'
-import Stat from 'components/Stat'
+import Header from 'components/Header'
 
 export default function Home() {
-  const { isSuccess: isSuccessPlayers, data: players } = useAllPlayers()
-  const { isSuccess: isSuccessTeams, data: teams } = useAllTeams()
-
-  if (!isSuccessTeams || !isSuccessPlayers) return 'Loading...'
-
   return (
     <>
-      <h1 className="text-3xl font-semibold">CS Matches</h1>
-
-      <Section title="Dashboard">
-        <div className="flex gap-3">
-          <Stat description="teams" value={teams.length} destination="/teams" />
-          <Stat
-            description="players"
-            value={players.length}
-            destination="/players"
-          />
-        </div>
-      </Section>
+      <Header title="CS Matches" showBackButton={false} />
 
       <Section title="Create new">
         <nav className="flex gap-3">
