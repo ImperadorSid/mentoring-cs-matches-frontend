@@ -2,11 +2,11 @@ import { ChangeEvent } from 'react'
 import Input from 'components/Input'
 import Select from 'components/Select'
 import type { PlayerStats } from 'types/Match'
-import type { PlayerWithTeam } from 'types/Player'
+import type { PlayerCareer } from 'types/Player'
 
 type PlayerStatsFormProps = {
   formIndex: number
-  availablePlayers: PlayerWithTeam[]
+  availablePlayers: PlayerCareer[]
   onFormChange: (formIndex: number, playerData: Partial<PlayerStats>) => void
 }
 

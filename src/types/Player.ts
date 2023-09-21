@@ -1,4 +1,5 @@
 import { Team } from './Team'
+import { PlayerStats } from './Match'
 
 export type Player = {
   id: number
@@ -8,6 +9,7 @@ export type Player = {
   birth_date: string
 }
 
-export type PlayerWithTeam = Player & {
+export type PlayerCareer = Player & {
   team: Team
+  player_performances: PlayerStats[]
 }
