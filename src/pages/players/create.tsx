@@ -6,9 +6,9 @@ import Button from 'components/Button'
 import { useAllTeams } from 'api/teams'
 import { useCreatePlayer } from 'api/players'
 import { getSubmitButtonText } from 'utils/getSubmitButtonText'
-import { Player } from 'types/Player'
+import type { Player } from 'types/Player'
 
-type PlayerCreateFormData = Player & {
+type PlayerCreateFormData = Omit<Player, 'id'> & {
   team_id: string
 }
 
