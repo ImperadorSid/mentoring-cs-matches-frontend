@@ -1,12 +1,12 @@
 import { useMutation, useQuery } from 'react-query'
-import { Team } from 'types/Team'
+import { Team, TeamWithId } from 'types/Team'
 import { getRoute, postRoute } from 'utils/fetchers'
 
 export const useAllTeams = () =>
-  useQuery('teams', () => getRoute<Team[]>('teams'))
+  useQuery('teams', () => getRoute<TeamWithId[]>('teams'))
 
 export const useTeamById = (id: number) =>
-  useQuery(['team', id], () => getRoute<Team>(`teams/${id}`))
+  useQuery(['team', id], () => getRoute<TeamWithId>(`teams/${id}`))
 
 export const useCreateTeam = () =>
-  useMutation((teamData: Omit<Team, 'id'>) => postRoute('teams', teamData))
+  useMutation((teamData: Team) => postRoute('teams', teamData))

@@ -1,6 +1,7 @@
 export type Team = {
-  id: number
   name: string
   country: string
   region: string
 }
+
+export type TeamWithId = Team & { id: number }
