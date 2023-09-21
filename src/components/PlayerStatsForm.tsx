@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react'
 import Input from 'components/Input'
 import Select from 'components/Select'
-import type { PlayerStats } from 'types/PlayerStats'
+import type { PlayerStats } from 'types/Match'
 import type { PlayerWithId } from 'types/Player'
 
 type PlayerStatsFormProps = {
@@ -18,7 +18,7 @@ export default function PlayerStatsForm({
   const handleFormChange = ({
     target: { name, value },
   }: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    onFormChange(formIndex, { [name]: value })
+    onFormChange(formIndex, { [name]: parseInt(value) })
   }
 
   return (

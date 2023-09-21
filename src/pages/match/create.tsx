@@ -1,32 +1,32 @@
-import { ChangeEvent, FormEvent, useMemo, useState } from 'react'
+import { FormEvent, useMemo, useState } from 'react'
 import Form from 'components/Form'
 import Input from 'components/Input'
 import PlayerStatsForm from 'components/PlayerStatsForm'
 import Section from 'components/Section'
 import Select from 'components/Select'
 import Button from 'components/Button'
-import type { PlayerStats } from 'types/PlayerStats'
 import { useAllTeams } from 'api/teams'
 import { useAllPlayers } from 'api/players'
+import { useCreateMatch } from 'api/match'
+import { getSubmitButtonText } from 'utils/getSubmitButtonText'
+import type { PlayerStats } from 'types/Match'
 
 type PlayerStatsArray = {
   [key: number]: PlayerStats
 }
 
-type TeamFormFields =
-  | 'team_home_id'
-  | 'team_home_score'
-  | 'team_away_id'
-  | 'team_away_score'
+type TeamScoresFormData = {
+  team_home_id: string
+  team_home_score: string
+  team_away_id: string
+  team_away_score: string
+}
 
 export default function MatchCreate() {
   const { isSuccess: isSuccessPlayers, data: players } = useAllPlayers()
   const { isSuccess: isSuccessTeams, data: teams } = useAllTeams()
+  const createMatch = useCreateMatch()
 
-  const [homeTeamId, setHomeTeamId] = useState<number>()
-  const [homeTeamScore, setHomeTeamScore] = useState<number>()
-  const [awayTeamId, setAwayTeamId] = useState<number>()
-  const [awayTeamScore, setAwayTeamScore] = useState<number>()
   const [playersData, setPlayersData] = useState<PlayerStatsArray>([])
 
   const playersCount = useMemo(
@@ -35,6 +35,8 @@ export default function MatchCreate() {
   )
 
   const addNewPlayer = () => {
+    if (!players || !players.length) return
+
     setPlayersData((current) => {
       const updatedForms = { ...current }
       const newPlayerFormIndex = playersCount
@@ -44,6 +46,7 @@ export default function MatchCreate() {
         deaths: 0,
         assists: 0,
         headshots: 0,
+        player_id: players[0].id,
       }
 
       return updatedForms
@@ -74,29 +77,22 @@ export default function MatchCreate() {
     })
   }
 
-  const handleTeamFormChange = ({
-    target: { name, value },
-  }: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const setters = {
-      team_home_id: setHomeTeamId,
-      team_home_score: setHomeTeamScore,
-      team_away_id: setAwayTeamId,
-      team_away_score: setAwayTeamScore,
-    }
-
-    setters[name as TeamFormFields](parseInt(value))
-  }
-
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    console.log(
-      homeTeamId,
-      homeTeamScore,
-      awayTeamId,
-      awayTeamScore,
-      playersData,
-    )
+    const formData = new FormData(event.currentTarget)
+    const { team_home_id, team_home_score, team_away_id, team_away_score } =
+      Object.fromEntries(formData) as TeamScoresFormData
+
+    const creationData = {
+      team_home_id: parseInt(team_home_id || '0'),
+      team_home_score: parseInt(team_home_score || '0'),
+      team_away_id: parseInt(team_away_id || '0'),
+      team_away_score: parseInt(team_away_score || '0'),
+      player_performances_attributes: Object.values(playersData),
+    }
+
+    createMatch.mutate(creationData)
   }
 
   if (!isSuccessTeams || !isSuccessPlayers) return 'Loading...'
@@ -112,14 +108,12 @@ export default function MatchCreate() {
               value: id.toString(),
             }))}
             className="grow-[6]"
-            onChange={handleTeamFormChange}
           />
           <Input
             name="team_home_score"
             type="number"
             placeholder="Home Score"
             className="w-0 grow-[4]"
-            onChange={handleTeamFormChange}
           />
         </div>
 
@@ -131,14 +125,12 @@ export default function MatchCreate() {
               value: id.toString(),
             }))}
             className="grow-[6]"
-            onChange={handleTeamFormChange}
           />
           <Input
             name="team_away_score"
             type="number"
             placeholder="Away Score"
             className="w-0 grow-[4]"
-            onChange={handleTeamFormChange}
           />
         </div>
       </Section>
@@ -157,6 +149,7 @@ export default function MatchCreate() {
           <Button className="ms-auto bg-green-700" onClick={addNewPlayer}>
             Add new
           </Button>
+
           {playersCount > 0 && (
             <Button className="bg-red-700" onClick={removeLastPlayer}>
               Remove last
@@ -165,7 +158,7 @@ export default function MatchCreate() {
         </div>
       </Section>
 
-      <Button type="submit">Create</Button>
+      <Button type="submit">{getSubmitButtonText(createMatch)}</Button>
     </Form>
   )
 }
